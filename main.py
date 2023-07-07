@@ -24,7 +24,7 @@ class Events:
 
 
 class Email:
-    def send_email(self, message):
+    def send_email(self, subject, message):
         host = "smtp.gmail.com"
         port = 465
 
@@ -32,11 +32,12 @@ class Email:
         password = "efeikwoyofwhhzzs"
 
         receiver = "curtis4ridaz@gmail.com"
+        email_message = f"Subject: {subject}\n\n{message}"
         context = ssl.create_default_context()
 
         with smtplib.SMTP_SSL(host, port, context=context) as server:
             server.login(username, password)
-            server.sendmail(username, receiver, message)
+            server.sendmail(username, receiver, email_message)
         print("Email was sent!")
 
 
@@ -75,5 +76,5 @@ if __name__ == "__main__":
             if not row:
                 database.store(extracted)
                 email = Email()
-                email.send_email(message="Hey, new event was found!")
+                email.send_email(subject="New Tour Update", message="Hey, new tour event was found!")
         time.sleep(2)
